@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:students/mock/mock_data.dart';
+import 'package:students/src/models/student_model.dart';
 import 'package:students/src/screens/students_details_screen_view.dart';
 
 class StudentHomeScreenView extends StatelessWidget {
@@ -24,16 +25,23 @@ class StudentHomeScreenView extends StatelessWidget {
               child: ListView.builder(
                 itemCount: mockData.length,
                 itemBuilder: (context, index) {
+                  List<StudentModel> _students = mockData.map(
+                    (element) {
+                      return StudentModel.fromMap(element);
+                    },
+                  ).toList();
+
                   return Container(
                     padding: EdgeInsets.all(10),
                     child: Card(
                       child: ListTile(
                         subtitle: Text(index.toString()),
                         leading: Image.network(
-                          mockData[index]["profileImage"].toString(),
+                          _students[index].profileImage!,
+                          //TODO: handle if null
                         ),
                         title: Text(
-                          mockData[index]["first_name"].toString(),
+                          _students[index].firstName,
                         ),
                         trailing: IconButton(
                           icon: Icon(Icons.arrow_right),
@@ -41,11 +49,7 @@ class StudentHomeScreenView extends StatelessWidget {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => DetailsScreen(
-                                  imageURL: mockData[index]["profileImage"]
-                                      .toString(),
-                                  studentName:
-                                      mockData[index]["first_name"].toString(),
-                                  gender: mockData[index]["gender"].toString(),
+                                  student: _students[index],
                                 ),
                               ),
                             );
@@ -58,7 +62,6 @@ class StudentHomeScreenView extends StatelessWidget {
               ),
             ),
             Container(
-              //was for hello
               height: 115,
               color: Colors.blue,
             )
