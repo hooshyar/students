@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:students/src/models/student_model.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen(
-      {Key? key,
-      required this.imageURL,
-      required this.studentName,
-      required this.gender})
-      : super(key: key);
+  const DetailsScreen({
+    Key? key,
+    required this.student,
+  }) : super(key: key);
 
-  final String imageURL;
-  final String studentName;
-  final String gender;
+  final StudentModel student;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +28,7 @@ class DetailsScreen extends StatelessWidget {
                     height: 197,
                     width: 229,
                     //TODO: change it to the image from the main screen
-                    child: Image.network(imageURL),
+                    child: Image.network(student.profileImage!),
                   ),
                 ),
               ],
@@ -42,7 +40,7 @@ class DetailsScreen extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.center,
                     //TODO: get the name from the main screen
-                    child: Text(studentName),
+                    child: Text(student.firstName),
                   ),
                 ),
               ],
@@ -51,7 +49,7 @@ class DetailsScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    child: Text('gender: $gender'),
+                    child: Text('gender: ${student.gender}'),
                   ),
                 ),
               ],
